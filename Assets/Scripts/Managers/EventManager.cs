@@ -6,6 +6,7 @@ public enum GameEvent
 {
     //Ground
     OnGround,
+    OnPlayerMove,
 
     //Game Management
     OnIncreaseScore,

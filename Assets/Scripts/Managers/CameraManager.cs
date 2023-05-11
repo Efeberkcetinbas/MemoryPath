@@ -9,7 +9,6 @@ public class CameraManager : MonoBehaviour
     public Camera mainCamera;
 
     public CinemachineVirtualCamera cm;
-    public Transform cmCamera;
 
     Vector3 cameraInitialPosition;
 
@@ -20,18 +19,25 @@ public class CameraManager : MonoBehaviour
     private void OnEnable() 
     {
         EventManager.AddHandler(GameEvent.OnGameOver,GameOver);
-        //EventManager.AddHandler(GameEvent.OnGround,OnGround);
+        EventManager.AddHandler(GameEvent.OnGround,OnGround);
+        EventManager.AddHandler(GameEvent.OnPlayerMove,OnPlayerMove);
     }
 
     private void OnDisable()
     {
         EventManager.RemoveHandler(GameEvent.OnGameOver,GameOver);
-        //EventManager.RemoveHandler(GameEvent.OnGround,OnGround);
+        EventManager.RemoveHandler(GameEvent.OnGround,OnGround);
+        EventManager.RemoveHandler(GameEvent.OnPlayerMove,OnPlayerMove);
     }
 
     
 
     private void OnGround()
+    {
+        ChangeFieldOfView(55,0.2f);
+    }
+
+    private void OnPlayerMove()
     {
         ShakeIt();
     }
@@ -42,7 +48,7 @@ public class CameraManager : MonoBehaviour
     public void ChangeFieldOfView(float fieldOfView, float duration = 1)
     {
         DOTween.To(() => cm.m_Lens.FieldOfView, x => cm.m_Lens.FieldOfView = x, fieldOfView, duration).OnComplete(()=>{
-            ResetFieldOfView(85,0.1f);
+            ResetFieldOfView(60,0.2f);
         });
     }
 
@@ -58,7 +64,7 @@ public class CameraManager : MonoBehaviour
 
     void GameOver()
     {
-        DOTween.To(() => mainCamera.fieldOfView, x => mainCamera.fieldOfView = x, 60, 0.5f).OnComplete(()=>
+        DOTween.To(() => cm.m_Lens.FieldOfView, x => cm.m_Lens.FieldOfView = x, 80, 0.5f).OnComplete(()=>
         {
             EventManager.Broadcast(GameEvent.OnUIGameOver);
         });

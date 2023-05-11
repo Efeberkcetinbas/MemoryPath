@@ -7,14 +7,20 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Game Scene UI")]
     public TextMeshProUGUI score;
     public TextMeshProUGUI fromText;
     public TextMeshProUGUI toText;
 
     public Image progressBar;
 
+    [Header("Data")]
     public GameData gameData;
     public GroundData groundData;
+
+    [Header("Game End UI")] 
+    public RectTransform failPanel;
+    [SerializeField] private float x,y;
 
     private void Start() 
     {
@@ -27,12 +33,14 @@ public class UIManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnUIUpdate, OnUIUpdate);
         EventManager.AddHandler(GameEvent.OnNextLevel,OnUIUpdateLevelText);
         EventManager.AddHandler(GameEvent.OnGround,OnUIUpdateGroundNumber);
+        EventManager.AddHandler(GameEvent.OnUIGameOver,OnUIGameOver);
     }
     private void OnDisable()
     {
         EventManager.RemoveHandler(GameEvent.OnUIUpdate, OnUIUpdate);
         EventManager.RemoveHandler(GameEvent.OnNextLevel,OnUIUpdateLevelText);
         EventManager.RemoveHandler(GameEvent.OnGround,OnUIUpdateGroundNumber);
+        EventManager.RemoveHandler(GameEvent.OnUIGameOver,OnUIGameOver);
     }
 
     
@@ -52,6 +60,12 @@ public class UIManager : MonoBehaviour
     {
         float amount=(float)groundData.tempPathNumber/(float)groundData.PathNumber;
         progressBar.DOFillAmount(amount,0.2f);
+    }
+
+    void OnUIGameOver()
+    {
+        failPanel.gameObject.SetActive(true);
+        failPanel.DOAnchorPos(Vector2.zero,0.5f);
     }
 
     

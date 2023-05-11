@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     public PlayerData playerData;
     public GameData gameData;
 
+    [SerializeField] private ParticleSystem moveParticle,jumpParticle;
+
 
 
     private void Start() 
@@ -51,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
                 if(Mathf.Abs(lastPosition.x-firstPosition.x)>Mathf.Abs(lastPosition.y-firstPosition.y))
                 {
                     RandomMove();
+                    EventManager.Broadcast(GameEvent.OnPlayerMove);
                     if(lastPosition.x>firstPosition.x)
                     {
                         RotateYAxis(90);
@@ -101,12 +104,14 @@ public class PlayerMovement : MonoBehaviour
     {
         var currentPosLeft=transform.position.x;
         transform.DOMoveX(currentPosLeft+direction,0.1f);
+        moveParticle.Play();
     }
 
     private void GoZAxisWithDash(float direction)
     {
         var currentPosUp=transform.position.z;
         transform.DOMoveZ(currentPosUp+direction,0.1f);
+        moveParticle.Play();
     }
 
     
@@ -130,6 +135,7 @@ public class PlayerMovement : MonoBehaviour
     {
         var currentPos=transform.position;
         //rotasyon istersen acarsin
+        jumpParticle.Play();
         transform.DOScale(Vector3.one/1.5f,duration);
         transform.DOJump(new Vector3(currentPos.x+direction,currentPos.y,currentPos.z),1,1,duration).OnComplete(()=>{
             transform.DOScale(Vector3.one,0.25f);
@@ -139,6 +145,7 @@ public class PlayerMovement : MonoBehaviour
     private void JumpZAxis(float direction,float rot,float duration)
     {
         var currentPos=transform.position;
+        jumpParticle.Play();
         transform.DOScale(Vector3.one/1.5f,duration);
         transform.DOJump(new Vector3(currentPos.x,currentPos.y,currentPos.z + direction),1,1,duration).OnComplete(()=>{
             transform.DOScale(Vector3.one,0.25f);

@@ -22,12 +22,12 @@ public class AudioManager : MonoBehaviour
     private void OnEnable() 
     {
         EventManager.AddHandler(GameEvent.OnGameOver,OnGameOver);
-        //EventManager.AddHandler(GameEvent.OnGround,OnGround);
+        EventManager.AddHandler(GameEvent.OnGround,OnGround);
     }
     private void OnDisable() 
     {
         EventManager.RemoveHandler(GameEvent.OnGameOver,OnGameOver);
-        //EventManager.RemoveHandler(GameEvent.OnGround,OnGround);
+        EventManager.RemoveHandler(GameEvent.OnGround,OnGround);
     }
 
     

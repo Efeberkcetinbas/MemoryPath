@@ -9,11 +9,12 @@ public class GameManager : MonoBehaviour
     public PlayerData playerData;
     public GroundData groundData;
 
-    [SerializeField] private GameObject FailPanel;
-    [SerializeField] private Ease ease;
+    
 
-    public float InitialDifficultyValue;
-
+    //Game Endte Kaybolmasini istedigin game objectler
+    [Header("Game End")]
+    public GameObject[] gameObjects;
+   
 
     private void Awake() 
     {
@@ -26,18 +27,20 @@ public class GameManager : MonoBehaviour
     {
         EventManager.AddHandler(GameEvent.OnIncreaseScore, OnIncreaseScore);
         EventManager.AddHandler(GameEvent.OnNextLevel,OnClearData);
+        EventManager.AddHandler(GameEvent.OnUIGameOver,OnUIGameOver);
+        EventManager.AddHandler(GameEvent.OnGameOver,OnGameOver);
     }
 
     private void OnDisable()
     {
         EventManager.RemoveHandler(GameEvent.OnIncreaseScore, OnIncreaseScore);
         EventManager.RemoveHandler(GameEvent.OnNextLevel,OnClearData);
+        EventManager.RemoveHandler(GameEvent.OnUIGameOver,OnUIGameOver);
+        EventManager.RemoveHandler(GameEvent.OnGameOver,OnGameOver);
     }
     
     void OnGameOver()
     {
-        FailPanel.SetActive(true);
-        FailPanel.transform.DOScale(Vector3.one,1f).SetEase(ease);
         playerData.playerCanMove=false;
         gameData.isGameEnd=true;
 
@@ -64,12 +67,28 @@ public class GameManager : MonoBehaviour
         EventManager.Broadcast(GameEvent.OnUIUpdate);
     }
 
+    private void OnUIGameOver()
+    {
+        OpenClose(false);
+    }
     
 
     
     void OnClearData()
     {
-        
+        gameData.isGameEnd=false;
+        OpenClose(true);
+    }
+
+    private void OpenClose(bool canOpen)
+    {
+        for (int i = 0; i < gameObjects.Length; i++)
+        {
+            if(canOpen)
+                gameObjects[i].SetActive(true);
+            else
+                gameObjects[i].SetActive(false);
+        }
     }
 
     

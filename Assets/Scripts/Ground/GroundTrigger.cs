@@ -34,6 +34,12 @@ public class GroundTrigger : Obstacable
             EventManager.Broadcast(GameEvent.OnGround);
             EventManager.Broadcast(GameEvent.OnIncreaseScore);
         }
+        else
+        {
+            meshRenderer.material.DOFade(1,1f);
+            meshRenderer.material.DOColor(Color.red,1);
+            EventManager.Broadcast(GameEvent.OnGameOver);
+        }
         
         
     }
@@ -41,7 +47,7 @@ public class GroundTrigger : Obstacable
     internal override void InteractionExit(PlayerTrigger player)
     {
         //ruzgar efekti
-        //exitParticle.Play();
+        exitParticle.Play();
         if(playerData.playerUp) transform.DOLocalRotate(new Vector3(360,0,0),.5f,RotateMode.FastBeyond360).SetRelative(true).SetEase(Ease.Linear);
         if(playerData.playerDown) transform.DOLocalRotate(new Vector3(-360,0,0),.5f,RotateMode.FastBeyond360).SetRelative(true).SetEase(Ease.Linear);
         if(playerData.playerLeft) transform.DOLocalRotate(new Vector3(0,0,360),.5f,RotateMode.FastBeyond360).SetRelative(true).SetEase(Ease.Linear);
