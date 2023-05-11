@@ -20,10 +20,11 @@ public class GroundTrigger : Obstacable
         if(canEnter)
         {
             Debug.Log("HIT");
+            playerData.playerCanMove=true;
             meshRenderer.material.DOFade(1,1f);
             meshRenderer.material.DOColor(Color.green,1);
-            EventManager.Broadcast(GameEvent.OnGround);
-            EventManager.Broadcast(GameEvent.OnIncreaseScore);
+            /*EventManager.Broadcast(GameEvent.OnGround);
+            EventManager.Broadcast(GameEvent.OnIncreaseScore);*/
         }
         
         
@@ -32,7 +33,7 @@ public class GroundTrigger : Obstacable
     internal override void InteractionExit(PlayerTrigger player)
     {
 
-        exitParticle.Play();
+        //exitParticle.Play();
         if(playerData.playerUp) transform.DOLocalRotate(new Vector3(360,0,0),.5f,RotateMode.FastBeyond360).SetRelative(true).SetEase(Ease.Linear);
         if(playerData.playerDown) transform.DOLocalRotate(new Vector3(-360,0,0),.5f,RotateMode.FastBeyond360).SetRelative(true).SetEase(Ease.Linear);
         if(playerData.playerLeft) transform.DOLocalRotate(new Vector3(0,0,360),.5f,RotateMode.FastBeyond360).SetRelative(true).SetEase(Ease.Linear);
