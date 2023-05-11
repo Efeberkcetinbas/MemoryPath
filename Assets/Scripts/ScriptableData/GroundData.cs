@@ -7,7 +7,8 @@ using UnityEngine;
 public class GroundData : ScriptableObject 
 {
 
-    
+    public int PathNumber;
+    public int tempPathNumber=0;
     
     
 }

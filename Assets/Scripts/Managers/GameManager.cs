@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public GameData gameData;
     public PlayerData playerData;
+    public GroundData groundData;
 
     [SerializeField] private GameObject FailPanel;
     [SerializeField] private Ease ease;
@@ -16,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake() 
     {
-        ClearData();
+        OnClearData();
     }
 
     
@@ -24,11 +25,13 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.AddHandler(GameEvent.OnIncreaseScore, OnIncreaseScore);
+        EventManager.AddHandler(GameEvent.OnNextLevel,OnClearData);
     }
 
     private void OnDisable()
     {
         EventManager.RemoveHandler(GameEvent.OnIncreaseScore, OnIncreaseScore);
+        EventManager.RemoveHandler(GameEvent.OnNextLevel,OnClearData);
     }
     
     void OnGameOver()
@@ -43,7 +46,6 @@ public class GameManager : MonoBehaviour
 
     void OnIncreaseScore()
     {
-        //gameData.score += 50;
         DOTween.To(GetScore,ChangeScore,gameData.score+gameData.increaseScore,1f).OnUpdate(UpdateUI);
     }
 
@@ -65,9 +67,9 @@ public class GameManager : MonoBehaviour
     
 
     
-    void ClearData()
+    void OnClearData()
     {
-
+        
     }
 
     
