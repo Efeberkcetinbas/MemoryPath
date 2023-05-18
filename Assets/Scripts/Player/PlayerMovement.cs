@@ -57,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
                     if(lastPosition.x>firstPosition.x)
                     {
                         RotateYAxis(90);
+                        EventManager.Broadcast(GameEvent.OnPlayerRight);
                         if(randomNumber == 0 ) GoXAxisWithDash(+2);
                         if(randomNumber == 1) JumpXAxis(+2f,-360,0.5f);
                         //GoXAxisWithDash(+2);
@@ -65,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
                     else
                     {
                         RotateYAxis(-90);
+                        EventManager.Broadcast(GameEvent.OnPlayerLeft);
                         if(randomNumber == 0 ) GoXAxisWithDash(-2);
                         if(randomNumber == 1) JumpXAxis(-2f,360,0.5f);
                         //GoXAxisWithDash(-2);
@@ -77,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
                     if(lastPosition.y>firstPosition.y)
                     {
                         RotateYAxis(0);
+                        EventManager.Broadcast(GameEvent.OnPlayerUp);
                         if(randomNumber == 0 ) GoZAxisWithDash(+2);
                         if(randomNumber == 1) JumpZAxis(+2f,360,0.5f);
                         //GoZAxisWithDash(+2);
@@ -85,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
                     else
                     {
                         RotateYAxis(180);
+                        EventManager.Broadcast(GameEvent.OnPlayerDown);
                         if(randomNumber == 0 ) GoZAxisWithDash(-2);
                         if(randomNumber == 1) JumpZAxis(-2f,-360,0.5f);
                         //GoZAxisWithDash(-2);
@@ -154,8 +158,8 @@ public class PlayerMovement : MonoBehaviour
     #endregion
     private void RandomMove()
     {
-        randomNumber=Random.Range(0,2);
-        Debug.Log(randomNumber);
+        //randomNumber=Random.Range(0,2);
+        randomNumber=1;
     }
 
     #region  Rotate

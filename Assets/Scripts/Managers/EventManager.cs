@@ -7,10 +7,15 @@ public enum GameEvent
     //Ground
     OnGround,
     OnPlayerMove,
+    OnPlayerLeft,
+    OnPlayerRight,
+    OnPlayerUp,
+    OnPlayerDown,
 
     //Game Management
     OnIncreaseScore,
     OnUIUpdate,
+    OnUIDirectionUpdate,
     OnUIGameOver,
     OnNextLevel,
     OnGameOver

@@ -19,6 +19,7 @@ public class GroundTrigger : Obstacable
     [SerializeField] private MeshRenderer meshRenderer;
 
     [SerializeField] private bool canEnter;
+    private bool canGetPoint=true;
 
     public PlayerData playerData;
     internal override void DoAction(PlayerTrigger player)
@@ -29,10 +30,14 @@ public class GroundTrigger : Obstacable
             playerData.playerCanMove=true;
             meshRenderer.material.DOFade(1,1f);
             meshRenderer.material.DOColor(Color.green,1);
-            groundData.tempPathNumber++;
-            StartCoinMove();
             EventManager.Broadcast(GameEvent.OnGround);
-            EventManager.Broadcast(GameEvent.OnIncreaseScore);
+            if(canGetPoint)
+            {
+                groundData.tempPathNumber++;
+                EventManager.Broadcast(GameEvent.OnIncreaseScore);
+                StartCoinMove();
+                canGetPoint=false;
+            }
         }
         else
         {
